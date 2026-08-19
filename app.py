@@ -77,21 +77,6 @@ div.stButton > button:hover {
     color: #030812;
     box-shadow: 0 0 25px #00f0ff;
 }
-
-div[data-testid="stForm"] {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #030812;
-    padding: 15px 20px;
-    z-index: 999;
-    border-top: 1px solid rgba(0,240,255,0.3);
-}
-
-.block-container {
-    padding-bottom: 100px;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -151,16 +136,9 @@ def get_reply(user_text):
     audio_bytes = asyncio.run(generate_voice(reply))
     st.audio(audio_bytes)
 
-with st.form("chat_form", clear_on_submit=True):
-    c1, c2, c3 = st.columns([1, 7, 1])
-    with c1:
-        audio_data = audio_recorder(text="", icon_size="1.5x", recording_color="#00f0ff", neutral_color="#7fd8ff")
-    with c2:
-        typed_input = st.text_input("", placeholder="Speak to Ultron...", label_visibility="collapsed")
-    with c3:
-        sent = st.form_submit_button("➤")
+audio_data = audio_recorder(text="", icon_size="1.5x", recording_color="#00f0ff", neutral_color="#7fd8ff")
 
-user_input = typed_input if sent and typed_input else None
+user_input = st.chat_input("Speak to Ultron...")
 
 if audio_data:
     with open("temp_input.wav", "wb") as f:
