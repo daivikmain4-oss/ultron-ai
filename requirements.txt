@@ -1,5 +1,5 @@
 streamlit
 groq
-gTTS
+edge-tts
 audio-recorder-streamlit
 SpeechRecognition
