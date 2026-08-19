@@ -3,7 +3,7 @@ from google import genai
 
 st.title("🤖 Ultron")
 
-client = genai.Client(api_key=st.secrets["AQ.Ab8RN6KCrK9qhdA7q2_6lH56IwpLpDNYdBvxPfkAWcyKfstzyw"])
+client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 if "chat" not in st.session_state:
     st.session_state.chat = client.chats.create(model="gemini-2.5-flash")
     st.session_state.messages = []
