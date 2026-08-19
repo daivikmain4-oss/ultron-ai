@@ -6,8 +6,9 @@ st.title("🤖 Ultron")
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 if "messages" not in st.session_state:
-    st.session_state.messages = []
-
+    st.session_state.messages = [
+        {"role": "system", "content": "You are Ultron, a helpful AI assistant built by Daivik. Always refer to yourself as Ultron, never as ChatGPT or any other name."}
+    ]
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
