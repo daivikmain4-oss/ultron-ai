@@ -69,6 +69,8 @@ div.stButton > button {
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 2px;
     box-shadow: 0 0 15px rgba(0,240,255,0.4);
+    display: block;
+    margin: 0 auto;
 }
 div.stButton > button:hover {
     background: #00f0ff;
@@ -85,9 +87,10 @@ if not st.session_state.started:
     st.markdown('<div class="arc-reactor"></div>', unsafe_allow_html=True)
     st.markdown('<div class="ultron-title">ULTRON</div>', unsafe_allow_html=True)
     st.markdown('<div class="ultron-sub">— PERSONAL AI SYSTEM —</div>', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1,1,1])
-    with col2:
-        if st.button("INITIALIZE"):
+
+    _, mid, _ = st.columns([1, 1, 1])
+    with mid:
+        if st.button("INITIALIZE", use_container_width=True):
             st.session_state.started = True
             st.rerun()
     st.stop()
@@ -99,7 +102,7 @@ recognizer = sr.Recognizer()
 
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "system", "content": "You are Ultron, a helpful AI assistant built by Daivik. Always refer to yourself as Ultron, never as ChatGPT or any other name."}
+        {"role": "system", "content": "You are Ultron, a helpful AI assistant. Always refer to yourself as Ultron, never as ChatGPT or any other name."}
     ]
 
 for msg in st.session_state.messages:
@@ -135,7 +138,7 @@ def get_reply(user_text):
 
 col1, col2 = st.columns([5, 1])
 with col1:
-    user_input = st.chat_input("Speak, Daivik...")
+    user_input = st.chat_input("Speak to Ultron...")
 with col2:
     audio_data = audio_recorder(text="", icon_size="2x")
 
