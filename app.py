@@ -7,6 +7,18 @@ import asyncio
 import io
 
 st.set_page_config(page_title="Ultron", page_icon="🤖")
+
+st.markdown("""
+<style>
+.stChatMessage {
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+h1 {
+    text-align: center;
+}
+</style>
+""", unsafe_allow_html=True)
 st.title("🤖 Ultron")
 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
