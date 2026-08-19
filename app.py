@@ -6,20 +6,93 @@ import edge_tts
 import asyncio
 import io
 
-st.set_page_config(page_title="Ultron", page_icon="🤖")
+st.set_page_config(page_title="Ultron", page_icon="🤖", layout="centered")
 
 st.markdown("""
 <style>
-.stChatMessage {
-    border-radius: 12px;
-    padding: 10px 14px;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Orbitron', sans-serif;
 }
-h1 {
+
+.stApp {
+    background: radial-gradient(circle at center, #0a1a2f 0%, #030812 100%);
+}
+
+.arc-reactor {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00f0ff 0%, #0077aa 60%, transparent 100%);
+    box-shadow: 0 0 40px #00f0ff, 0 0 80px #00d4ff;
+    margin: 40px auto 20px auto;
+    animation: pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 20px #00f0ff, 0 0 40px #00d4ff; }
+    50% { box-shadow: 0 0 40px #00f0ff, 0 0 90px #00d4ff; }
+    100% { box-shadow: 0 0 20px #00f0ff, 0 0 40px #00d4ff; }
+}
+
+.ultron-title {
     text-align: center;
+    font-size: 48px;
+    font-weight: 900;
+    color: #00f0ff;
+    text-shadow: 0 0 15px #00f0ff, 0 0 30px #00d4ff;
+    letter-spacing: 6px;
+}
+
+.ultron-sub {
+    text-align: center;
+    color: #7fd8ff;
+    font-size: 15px;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+}
+
+.stChatMessage {
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 14px;
+    padding: 12px 16px;
+}
+
+div.stButton > button {
+    background: transparent;
+    color: #00f0ff;
+    border: 2px solid #00f0ff;
+    border-radius: 30px;
+    padding: 10px 30px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px rgba(0,240,255,0.4);
+}
+div.stButton > button:hover {
+    background: #00f0ff;
+    color: #030812;
+    box-shadow: 0 0 25px #00f0ff;
 }
 </style>
 """, unsafe_allow_html=True)
-st.title("🤖 Ultron")
+
+if "started" not in st.session_state:
+    st.session_state.started = False
+
+if not st.session_state.started:
+    st.markdown('<div class="arc-reactor"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="ultron-title">ULTRON</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ultron-sub">— PERSONAL AI SYSTEM —</div>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1,1,1])
+    with col2:
+        if st.button("INITIALIZE"):
+            st.session_state.started = True
+            st.rerun()
+    st.stop()
+
+st.markdown('<div class="ultron-title" style="font-size:28px;">🤖 ULTRON</div>', unsafe_allow_html=True)
 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 recognizer = sr.Recognizer()
@@ -62,7 +135,7 @@ def get_reply(user_text):
 
 col1, col2 = st.columns([5, 1])
 with col1:
-    user_input = st.chat_input("Type a message...")
+    user_input = st.chat_input("Speak, Daivik...")
 with col2:
     audio_data = audio_recorder(text="", icon_size="2x")
 
