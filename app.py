@@ -1,6 +1,8 @@
 import streamlit as st
 from groq import Groq
 
+st.set_page_config(page_title="Ultron", page_icon="🤖")
+
 st.title("🤖 Ultron")
 
 client = Groq(api_key=st.secrets["GROQ_API_KEY"])
@@ -9,10 +11,12 @@ if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "You are Ultron, a helpful AI assistant built by Daivik. Always refer to yourself as Ultron, never as ChatGPT or any other name."}
     ]
+
 for msg in st.session_state.messages:
     if msg["role"] != "system":
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
+
 user_input = st.chat_input("Type a message...")
 
 if user_input:
