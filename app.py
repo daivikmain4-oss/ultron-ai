@@ -20,7 +20,7 @@ if user_input:
         st.write(user_input)
 
     response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",,
+        model="openai/gpt-oss-20b",
         messages=st.session_state.messages
     )
 
