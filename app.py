@@ -136,9 +136,11 @@ def get_reply(user_text):
     audio_bytes = asyncio.run(generate_voice(reply))
     st.audio(audio_bytes)
 
-audio_data = audio_recorder(text="", icon_size="1.5x", recording_color="#00f0ff", neutral_color="#7fd8ff")
-
-user_input = st.chat_input("Speak to Ultron...")
+mic_col, input_col = st.columns([1, 9])
+with mic_col:
+    audio_data = audio_recorder(text="", icon_size="1.5x", recording_color="#00f0ff", neutral_color="#7fd8ff")
+with input_col:
+    user_input = st.chat_input("Speak to Ultron...")
 
 if audio_data:
     with open("temp_input.wav", "wb") as f:
