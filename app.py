@@ -78,9 +78,11 @@ div.stButton > button:hover {
     box-shadow: 0 0 25px #00f0ff;
 }
 
-div[data-testid="column"] {
-    display: flex;
-    align-items: center;
+.mic-fixed {
+    position: fixed;
+    bottom: 18px;
+    left: 20px;
+    z-index: 999;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -141,11 +143,11 @@ def get_reply(user_text):
     audio_bytes = asyncio.run(generate_voice(reply))
     st.audio(audio_bytes)
 
-mic_col, input_col = st.columns([1, 8])
-with mic_col:
-    audio_data = audio_recorder(text="", icon_size="1.5x", recording_color="#00f0ff", neutral_color="#7fd8ff")
-with input_col:
-    user_input = st.chat_input("Speak to Ultron...")
+st.markdown('<div class="mic-fixed">', unsafe_allow_html=True)
+audio_data = audio_recorder(text="", icon_size="1.5x", recording_color="#00f0ff", neutral_color="#7fd8ff")
+st.markdown('</div>', unsafe_allow_html=True)
+
+user_input = st.chat_input("Speak to Ultron...")
 
 if audio_data:
     with open("temp_input.wav", "wb") as f:
