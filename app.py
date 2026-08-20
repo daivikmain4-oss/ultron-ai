@@ -154,20 +154,16 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-shadow: 0 0 12px rgba(0,240,255,0.4);
 }
 
-/* The mic library's own icon is drawn inside a cross-origin-style iframe
-   we can't reach to fix its internal centering. Real fix: keep the
-   iframe at its OWN natural size (where its actual click target lives —
-   stretching it to fill the circle broke click detection, since the
-   internal button stays anchored to its original position regardless
-   of the outer frame's size), make it invisible, and center that
-   natural-size iframe within the wrapper via flex. Draw our own mic
-   icon on top with pure CSS at the same center point. */
+/* Undoing the invisible-iframe + custom-icon overlay trick — it looked
+   right in preview but broke on real mobile Chrome (rows wrapping
+   oddly, elements going missing). Back to the simple version: show the
+   mic library's own built-in icon, just wrap it in a matching circle. */
 .st-key-ultron_bar iframe {
-    opacity: 0;
+    background: transparent !important;
+    color-scheme: dark;
     border: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    cursor: pointer;
 }
 
 /* Fixed circular frame around the mic, matching the send button size */
@@ -185,24 +181,6 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-sizing: border-box;
     padding: 0 !important;
     margin: 0 !important;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Our own mic glyph, drawn with pure CSS/SVG so we control its exact
-   position — sits on top of the invisible iframe, doesn't block clicks */
-.st-key-ultron_bar div:has(> iframe)::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 18px;
-    height: 24px;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48cGF0aCBmaWxsPSIjN2ZkOGZmIiBkPSJNMTkyIDBDMTM5IDAgOTYgNDMgOTYgOTZWMjU2YzAgNTMgNDMgOTYgOTYgOTZzOTYtNDMgOTYtOTZWOTZjMC01My00My05Ni05Ni05NnpNNjQgMjE2YzAtMTMuMy0xMC43LTI0LTI0LTI0cy0yNCAxMC43LTI0IDI0djQwYzAgODkuMSA2Ni4yIDE2Mi43IDE1MiAxNzQuNFY0NjRIMTIwYy0xMy4zIDAtMjQgMTAuNy0yNCAyNHMxMC43IDI0IDI0IDI0SDI2NGMxMy4zIDAgMjQtMTAuNyAyNC0yNHMtMTAuNy0yNC0yNC0yNEgyMTZWNDMwLjRjODUuOC0xMS43IDE1Mi04NS4zIDE1Mi0xNzQuNFYyMTZjMC0xMy4zLTEwLjctMjQtMjQtMjRzLTI0IDEwLjctMjQgMjR2NDBjMCA3MC43LTU3LjMgMTI4LTEyOCAxMjhzLTEyOC01Ny4zLTEyOC0xMjhWMjE2eiIvPjwvc3ZnPg==");
-    background-repeat: no-repeat;
-    background-size: contain;
-    pointer-events: none;
 }
 
 /* Send button — same size/shape as the mic, sitting right beside it */
