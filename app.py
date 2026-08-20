@@ -221,11 +221,10 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
 
 @media (max-width: 640px) {
     .st-key-ultron_bar {
-        /* Lift the whole bar up above mobile browsers' own bottom overlays
-           (e.g. Chrome's "Open in app" banner), which sit on top of fixed
-           bottom elements and were covering the mic/send buttons. */
-        bottom: 56px !important;
-        padding: 8px 8px;
+        /* Small lift only — just enough clearance from mobile browser
+           chrome (address bar / gesture area), not a big dead gap */
+        bottom: 0 !important;
+        padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px)) 8px;
     }
     .st-key-ultron_bar div[data-testid="stHorizontalBlock"] {
         max-width: 100%;
