@@ -97,11 +97,27 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     max-width: 100%;
 }
 
-/* Row inside the bar: text input + mic + send side by side */
+/* Row inside the bar: cap width and tighten spacing so widgets sit close
+   together instead of being spread across the full viewport by flex-grow */
+.st-key-ultron_bar div[data-testid="stHorizontalBlock"] {
+    max-width: 640px;
+    margin: 0 auto;
+    gap: 10px !important;
+    align-items: center;
+}
+
 .st-key-ultron_bar [data-testid="column"] {
     display: flex;
     align-items: center;
+    justify-content: center;
     overflow: visible;
+    width: fit-content !important;
+    flex: 0 0 auto !important;
+}
+
+.st-key-ultron_bar [data-testid="column"]:first-child {
+    flex: 1 1 auto !important;
+    width: auto !important;
 }
 
 .st-key-ultron_bar input[type="text"] {
@@ -117,34 +133,46 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-shadow: 0 0 12px rgba(0,240,255,0.4);
 }
 
-/* Center the mic recorder button vertically with the text input,
-   and kill the default white iframe background the component ships with */
-.st-key-ultron_bar div[data-testid="stAudioRecorder"] {
+/* Shrink the mic recorder to fit its icon only — no oversized panel behind it */
+.st-key-ultron_bar div[data-testid="stAudioRecorder"],
+.st-key-ultron_bar div[data-testid="stAudioRecorder"] > div,
+.st-key-ultron_bar div[data-testid="element-container"]:has(iframe) {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: transparent !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .st-key-ultron_bar iframe {
     background: transparent !important;
     color-scheme: dark;
-    max-width: 48px !important;
-    max-height: 48px !important;
-    width: 48px !important;
-    height: 48px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
 }
 
-/* Give the send button consistent sizing so it doesn't drift/overlap */
+/* Send button — small and square, sitting right beside the mic */
 .st-key-ultron_bar div.stButton > button {
     padding: 8px 0;
-    width: 100%;
-    min-width: 44px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
     margin: 0;
 }
 
 @media (max-width: 640px) {
     .st-key-ultron_bar {
         padding: 10px 10px;
+    }
+    .st-key-ultron_bar div[data-testid="stHorizontalBlock"] {
+        max-width: 100%;
     }
     .st-key-ultron_bar input[type="text"] {
         padding: 8px 12px;
