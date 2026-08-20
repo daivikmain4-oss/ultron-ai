@@ -181,6 +181,7 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-sizing: border-box;
     padding: 0 !important;
     margin: 0 !important;
+    overflow: hidden;
 }
 
 /* Send button — same size/shape as the mic, sitting right beside it */
