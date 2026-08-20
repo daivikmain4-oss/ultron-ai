@@ -220,19 +220,36 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
 
 @media (max-width: 640px) {
     .st-key-ultron_bar {
-        padding: 10px 10px;
+        /* Lift the whole bar up above mobile browsers' own bottom overlays
+           (e.g. Chrome's "Open in app" banner), which sit on top of fixed
+           bottom elements and were covering the mic/send buttons. */
+        bottom: 56px !important;
+        padding: 8px 8px;
     }
     .st-key-ultron_bar div[data-testid="stHorizontalBlock"] {
         max-width: 100%;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
+        gap: 6px !important;
     }
     .st-key-ultron_bar [data-testid="column"] {
         width: auto !important;
     }
+    .st-key-ultron_bar [data-testid="column"]:first-child {
+        min-width: 0 !important;
+    }
     .st-key-ultron_bar input[type="text"] {
-        padding: 8px 12px;
+        padding: 8px 10px;
         font-size: 14px;
+        min-width: 0 !important;
+    }
+    /* Shrink the circular buttons a bit on narrow screens so both always
+       fit alongside the text input instead of overflowing off-screen */
+    .st-key-ultron_bar div:has(> iframe),
+    .st-key-ultron_bar div.stButton > button {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
     }
 }
 </style>
