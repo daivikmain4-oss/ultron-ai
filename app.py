@@ -134,17 +134,15 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
 }
 
 /* The mic library's own icon is drawn inside a cross-origin-style iframe
-   we can't reach to fix its internal centering — every pixel nudge here
-   was a guess. Real fix: make that iframe invisible but still clickable
-   (it covers the whole circle, so clicking anywhere still toggles
-   recording), and draw our OWN mic icon on top with pure CSS, which we
-   fully control and can center exactly. */
+   we can't reach to fix its internal centering. Real fix: keep the
+   iframe at its OWN natural size (where its actual click target lives —
+   stretching it to fill the circle broke click detection, since the
+   internal button stays anchored to its original position regardless
+   of the outer frame's size), make it invisible, and center that
+   natural-size iframe within the wrapper via flex. Draw our own mic
+   icon on top with pure CSS at the same center point. */
 .st-key-ultron_bar iframe {
     opacity: 0;
-    position: absolute;
-    inset: 0;
-    width: 100% !important;
-    height: 100% !important;
     border: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -292,7 +290,7 @@ with bar:
     with col_mic:
         audio_data = audio_recorder(
             text="",
-            icon_size="1.4x",
+            icon_size="2x",
             recording_color="#00f0ff",
             neutral_color="#7fd8ff",
             key="mic_recorder",
@@ -302,17 +300,26 @@ with bar:
         send_clicked = st.button("➤", key="send_btn", use_container_width=True)
 
 # --- Handle mic input ---
+# audio_recorder keeps returning the SAME bytes on every rerun until a new
+# recording is made — without this check, st.rerun() after a reply would
+# re-process the identical audio forever, looping the same answer.
+if "last_audio_hash" not in st.session_state:
+    st.session_state.last_audio_hash = None
+
 if audio_data:
-    with open("temp_input.wav", "wb") as f:
-        f.write(audio_data)
-    with sr.AudioFile("temp_input.wav") as source:
-        audio = recognizer.record(source)
-        try:
-            text = recognizer.recognize_google(audio)
-            get_reply(text)
-            st.rerun()
-        except Exception:
-            st.write("Sorry, I couldn't understand that.")
+    audio_hash = hash(audio_data)
+    if audio_hash != st.session_state.last_audio_hash:
+        st.session_state.last_audio_hash = audio_hash
+        with open("temp_input.wav", "wb") as f:
+            f.write(audio_data)
+        with sr.AudioFile("temp_input.wav") as source:
+            audio = recognizer.record(source)
+            try:
+                text = recognizer.recognize_google(audio)
+                get_reply(text)
+                st.rerun()
+            except Exception:
+                st.write("Sorry, I couldn't understand that.")
 
 # --- Handle typed input (Enter key or send button) ---
 if (send_clicked or typed_text) and typed_text.strip():
