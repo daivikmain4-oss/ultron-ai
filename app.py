@@ -110,6 +110,12 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     width: 100%;
+    box-sizing: border-box;
+}
+
+.st-key-ultron_bar {
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .st-key-ultron_bar [data-testid="column"] {
@@ -119,11 +125,19 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     overflow: visible;
     width: fit-content !important;
     flex: 0 0 auto !important;
+    flex-shrink: 0 !important;
 }
 
 .st-key-ultron_bar [data-testid="column"]:first-child {
     flex: 1 1 auto !important;
     width: auto !important;
+    min-width: 0 !important;
+}
+
+.st-key-ultron_bar [data-testid="column"]:first-child input[type="text"] {
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
 }
 
 .st-key-ultron_bar input[type="text"] {
