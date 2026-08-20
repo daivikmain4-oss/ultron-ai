@@ -146,8 +146,7 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     padding: 0 !important;
     border: none !important;
     position: relative;
-    left: 0;
-    top: 0;
+    transform: translate(3px, 2px);
 }
 
 /* Fixed circular frame around the mic, matching the send button size.
