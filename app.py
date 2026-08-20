@@ -98,12 +98,18 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
 }
 
 /* Row inside the bar: cap width and tighten spacing so widgets sit close
-   together instead of being spread across the full viewport by flex-grow */
+   together instead of being spread across the full viewport by flex-grow.
+   !important on flex-direction because Streamlit auto-stacks columns
+   vertically on narrow/mobile screens by default — that's what was
+   breaking the bar on your phone. */
 .st-key-ultron_bar div[data-testid="stHorizontalBlock"] {
     max-width: 640px;
     margin: 0 auto;
     gap: 10px !important;
-    align-items: center;
+    align-items: center !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: 100%;
 }
 
 .st-key-ultron_bar [data-testid="column"] {
@@ -204,6 +210,11 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     }
     .st-key-ultron_bar div[data-testid="stHorizontalBlock"] {
         max-width: 100%;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+    }
+    .st-key-ultron_bar [data-testid="column"] {
+        width: auto !important;
     }
     .st-key-ultron_bar input[type="text"] {
         padding: 8px 12px;
