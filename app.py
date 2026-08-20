@@ -198,7 +198,7 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     transform: translate(-50%, -50%);
     width: 18px;
     height: 24px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'><path fill='%237fd8ff' d='M192 0C139 0 96 43 96 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H120c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H216V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z'/></svg>");
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzODQgNTEyIj48cGF0aCBmaWxsPSIjN2ZkOGZmIiBkPSJNMTkyIDBDMTM5IDAgOTYgNDMgOTYgOTZWMjU2YzAgNTMgNDMgOTYgOTYgOTZzOTYtNDMgOTYtOTZWOTZjMC01My00My05Ni05Ni05NnpNNjQgMjE2YzAtMTMuMy0xMC43LTI0LTI0LTI0cy0yNCAxMC43LTI0IDI0djQwYzAgODkuMSA2Ni4yIDE2Mi43IDE1MiAxNzQuNFY0NjRIMTIwYy0xMy4zIDAtMjQgMTAuNy0yNCAyNHMxMC43IDI0IDI0IDI0SDI2NGMxMy4zIDAgMjQtMTAuNyAyNC0yNHMtMTAuNy0yNC0yNC0yNEgyMTZWNDMwLjRjODUuOC0xMS43IDE1Mi04NS4zIDE1Mi0xNzQuNFYyMTZjMC0xMy4zLTEwLjctMjQtMjQtMjRzLTI0IDEwLjctMjQgMjR2NDBjMCA3MC43LTU3LjMgMTI4LTEyOCAxMjhzLTEyOC01Ny4zLTEyOC0xMjhWMjE2eiIvPjwvc3ZnPg==");
     background-repeat: no-repeat;
     background-size: contain;
     pointer-events: none;
