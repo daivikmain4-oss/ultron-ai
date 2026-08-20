@@ -151,9 +151,9 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     justify-content: center;
     align-items: center;
     background: transparent !important;
-    width: 56px !important;
-    height: 56px !important;
-    min-width: 56px !important;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
     border-radius: 50%;
     border: 2px solid #00f0ff;
     box-shadow: 0 0 15px rgba(0,240,255,0.4);
@@ -166,9 +166,9 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
 /* Send button — same size/shape as the mic, sitting right beside it */
 .st-key-ultron_bar div.stButton > button {
     padding: 0;
-    width: 56px;
-    height: 56px;
-    min-width: 56px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
     border-radius: 50%;
     margin: 0;
     box-sizing: border-box;
@@ -269,7 +269,7 @@ with bar:
     with col_mic:
         audio_data = audio_recorder(
             text="",
-            icon_size="3x",
+            icon_size="2x",
             recording_color="#00f0ff",
             neutral_color="#7fd8ff",
             key="mic_recorder",
