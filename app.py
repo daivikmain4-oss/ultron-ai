@@ -77,6 +77,53 @@ div.stButton > button:hover {
     color: #030812;
     box-shadow: 0 0 25px #00f0ff;
 }
+
+/* Leave room at the bottom so messages don't hide behind the pinned input bar */
+.main .block-container {
+    padding-bottom: 120px;
+}
+
+/* Pinned bottom input bar */
+.ultron-input-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: #030812;
+    border-top: 1px solid rgba(0, 240, 255, 0.25);
+    padding: 14px 0;
+}
+
+.ultron-input-bar .block-container {
+    padding-bottom: 0;
+}
+
+/* Row inside the bar: text input + mic side by side */
+.ultron-input-row [data-testid="column"] {
+    display: flex;
+    align-items: center;
+}
+
+.ultron-input-row input[type="text"] {
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid rgba(0, 240, 255, 0.35);
+    border-radius: 24px;
+    color: #eafcff;
+    padding: 10px 18px;
+}
+
+.ultron-input-row input[type="text"]:focus {
+    border: 1px solid #00f0ff;
+    box-shadow: 0 0 12px rgba(0,240,255,0.4);
+}
+
+/* Center the mic recorder button vertically with the text input */
+.ultron-input-row div[data-testid="stAudioRecorder"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -104,6 +151,11 @@ if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "You are Ultron, a helpful AI assistant. Always refer to yourself as Ultron, never as ChatGPT or any other name."}
     ]
+
+# Clear the text box after a send, before the widget is instantiated this run
+if st.session_state.get("_clear_input", False):
+    st.session_state["text_box"] = ""
+    st.session_state["_clear_input"] = False
 
 for msg in st.session_state.messages:
     if msg["role"] != "system":
@@ -136,10 +188,37 @@ def get_reply(user_text):
     audio_bytes = asyncio.run(generate_voice(reply))
     st.audio(audio_bytes)
 
-audio_data = audio_recorder(text="", icon_size="1.5x", recording_color="#00f0ff", neutral_color="#7fd8ff")
+# --- Pinned bottom bar: text input + mic + send, all in one row ---
+st.markdown('<div class="ultron-input-bar">', unsafe_allow_html=True)
+bar = st.container()
+with bar:
+    st.markdown('<div class="ultron-input-row">', unsafe_allow_html=True)
+    col_text, col_mic, col_send = st.columns([7, 1, 1])
 
-user_input = st.chat_input("Speak to Ultron...")
+    with col_text:
+        typed_text = st.text_input(
+            "Speak to Ultron...",
+            key="text_box",
+            label_visibility="collapsed",
+            placeholder="Speak to Ultron...",
+        )
 
+    with col_mic:
+        audio_data = audio_recorder(
+            text="",
+            icon_size="1.5x",
+            recording_color="#00f0ff",
+            neutral_color="#7fd8ff",
+            key="mic_recorder",
+        )
+
+    with col_send:
+        send_clicked = st.button("➤", key="send_btn", use_container_width=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+
+# --- Handle mic input ---
 if audio_data:
     with open("temp_input.wav", "wb") as f:
         f.write(audio_data)
@@ -148,8 +227,12 @@ if audio_data:
         try:
             text = recognizer.recognize_google(audio)
             get_reply(text)
-        except:
+            st.rerun()
+        except Exception:
             st.write("Sorry, I couldn't understand that.")
 
-if user_input:
-    get_reply(user_input)
+# --- Handle typed input (Enter key or send button) ---
+if (send_clicked or typed_text) and typed_text.strip():
+    get_reply(typed_text)
+    st.session_state["_clear_input"] = True
+    st.rerun()
