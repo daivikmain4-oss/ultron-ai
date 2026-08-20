@@ -133,43 +133,42 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-shadow: 0 0 12px rgba(0,240,255,0.4);
 }
 
-/* Mic recorder — target the iframe tag directly (guaranteed to exist)
-   rather than a guessed wrapper data-testid, which didn't match */
+/* Mic recorder — don't force the iframe's own pixel box (that stretched
+   the frame without re-centering the icon inside it, leaving it stuck
+   top-left). Instead let the component render at its natural size via a
+   bigger icon_size in Python, and just center + border the wrapper. */
 .st-key-ultron_bar iframe {
     background: transparent !important;
     color-scheme: dark;
-    max-width: 48px !important;
-    max-height: 48px !important;
-    width: 48px !important;
-    height: 48px !important;
-    border-radius: 50% !important;
-    border: 2px solid #00f0ff !important;
-    box-shadow: 0 0 15px rgba(0,240,255,0.4);
-    box-sizing: border-box;
     display: block;
     vertical-align: middle;
+    margin: 0 auto;
 }
 
-/* Also size the containing element so it doesn't leave extra empty space
-   around the iframe */
+/* Fixed circular frame around the mic, matching the send button size */
 .st-key-ultron_bar div:has(> iframe) {
     display: flex;
     justify-content: center;
     align-items: center;
     background: transparent !important;
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    border-radius: 50%;
+    border: 2px solid #00f0ff;
+    box-shadow: 0 0 15px rgba(0,240,255,0.4);
+    box-sizing: border-box;
     padding: 0 !important;
     margin: 0 !important;
+    overflow: hidden;
 }
 
 /* Send button — same size/shape as the mic, sitting right beside it */
 .st-key-ultron_bar div.stButton > button {
     padding: 0;
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
     border-radius: 50%;
     margin: 0;
     box-sizing: border-box;
@@ -270,7 +269,7 @@ with bar:
     with col_mic:
         audio_data = audio_recorder(
             text="",
-            icon_size="1.5x",
+            icon_size="3x",
             recording_color="#00f0ff",
             neutral_color="#7fd8ff",
             key="mic_recorder",
