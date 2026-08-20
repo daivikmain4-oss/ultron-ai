@@ -133,25 +133,25 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-shadow: 0 0 12px rgba(0,240,255,0.4);
 }
 
-/* Mic recorder — don't force the iframe's own pixel box (that stretched
-   the frame without re-centering the icon inside it, leaving it stuck
-   top-left). Instead let the component render at its natural size via a
-   bigger icon_size in Python, and just center + border the wrapper. */
+/* The mic library's own icon is drawn inside a cross-origin-style iframe
+   we can't reach to fix its internal centering — every pixel nudge here
+   was a guess. Real fix: make that iframe invisible but still clickable
+   (it covers the whole circle, so clicking anywhere still toggles
+   recording), and draw our OWN mic icon on top with pure CSS, which we
+   fully control and can center exactly. */
 .st-key-ultron_bar iframe {
-    background: transparent !important;
-    color-scheme: dark;
-    display: block;
-    vertical-align: middle;
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    border: none !important;
-    position: relative;
-    transform: translate(3px, 2px);
+    cursor: pointer;
 }
 
-/* Fixed circular frame around the mic, matching the send button size.
-   Absolute-centers the iframe inside it regardless of the iframe's own
-   native box size, so the icon lands in the middle of the circle. */
+/* Fixed circular frame around the mic, matching the send button size */
 .st-key-ultron_bar div:has(> iframe) {
     display: flex;
     justify-content: center;
@@ -166,8 +166,24 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-sizing: border-box;
     padding: 0 !important;
     margin: 0 !important;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
+}
+
+/* Our own mic glyph, drawn with pure CSS/SVG so we control its exact
+   position — sits on top of the invisible iframe, doesn't block clicks */
+.st-key-ultron_bar div:has(> iframe)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 24px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'><path fill='%237fd8ff' d='M192 0C139 0 96 43 96 96V256c0 53 43 96 96 96s96-43 96-96V96c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 89.1 66.2 162.7 152 174.4V464H120c-13.3 0-24 10.7-24 24s10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H216V430.4c85.8-11.7 152-85.3 152-174.4V216c0-13.3-10.7-24-24-24s-24 10.7-24 24v40c0 70.7-57.3 128-128 128s-128-57.3-128-128V216z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
 }
 
 /* Send button — same size/shape as the mic, sitting right beside it */
