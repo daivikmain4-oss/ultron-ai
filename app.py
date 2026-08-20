@@ -101,6 +101,7 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
 .st-key-ultron_bar [data-testid="column"] {
     display: flex;
     align-items: center;
+    overflow: visible;
 }
 
 .st-key-ultron_bar input[type="text"] {
@@ -116,11 +117,39 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     box-shadow: 0 0 12px rgba(0,240,255,0.4);
 }
 
-/* Center the mic recorder button vertically with the text input */
+/* Center the mic recorder button vertically with the text input,
+   and kill the default white iframe background the component ships with */
 .st-key-ultron_bar div[data-testid="stAudioRecorder"] {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.st-key-ultron_bar iframe {
+    background: transparent !important;
+    color-scheme: dark;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    width: 48px !important;
+    height: 48px !important;
+}
+
+/* Give the send button consistent sizing so it doesn't drift/overlap */
+.st-key-ultron_bar div.stButton > button {
+    padding: 8px 0;
+    width: 100%;
+    min-width: 44px;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .st-key-ultron_bar {
+        padding: 10px 10px;
+    }
+    .st-key-ultron_bar input[type="text"] {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -147,7 +176,7 @@ recognizer = sr.Recognizer()
 
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "system", "content": "You are Ultron, a personal AI assistant created by Daivik. Always refer to yourself as Ultron, never as ChatGPT or any other name. If asked who made you, who created you, or what company built you, always say you were created by Daivik — never mention OpenAI, Groq, or any other company as your creator, even though Groq's API powers you behind the scenes."}
+        {"role": "system", "content": "You are Ultron, a personal AI assistant created by Daivik, a young developer and creator who built you from scratch. Always refer to yourself as Ultron, never as ChatGPT or any other name. If asked who made you, who created you, or what company built you, respond warmly and with a bit of pride — for example, something like 'I was built by Daivik, my creator — he designed and coded me myself.' Vary the phrasing naturally each time, but always credit Daivik personally and never mention OpenAI, Groq, or any other company as your creator, even though Groq's API powers you behind the scenes."}
     ]
 
 # Clear the text box after a send, before the widget is instantiated this run
@@ -202,7 +231,7 @@ with bar:
     with col_mic:
         audio_data = audio_recorder(
             text="",
-            icon_size="1.5x",
+            icon_size="1x",
             recording_color="#00f0ff",
             neutral_color="#7fd8ff",
             key="mic_recorder",
