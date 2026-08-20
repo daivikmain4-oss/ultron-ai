@@ -146,6 +146,8 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     border: 2px solid #00f0ff !important;
     box-shadow: 0 0 15px rgba(0,240,255,0.4);
     box-sizing: border-box;
+    display: block;
+    vertical-align: middle;
 }
 
 /* Also size the containing element so it doesn't leave extra empty space
@@ -268,7 +270,7 @@ with bar:
     with col_mic:
         audio_data = audio_recorder(
             text="",
-            icon_size="2x",
+            icon_size="1.5x",
             recording_color="#00f0ff",
             neutral_color="#7fd8ff",
             key="mic_recorder",
