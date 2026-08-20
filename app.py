@@ -115,7 +115,8 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
 
 .st-key-ultron_bar {
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .st-key-ultron_bar [data-testid="column"] {
