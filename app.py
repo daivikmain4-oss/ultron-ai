@@ -142,10 +142,17 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     color-scheme: dark;
     display: block;
     vertical-align: middle;
-    margin: 0 auto;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    position: relative;
+    left: 0;
+    top: 0;
 }
 
-/* Fixed circular frame around the mic, matching the send button size */
+/* Fixed circular frame around the mic, matching the send button size.
+   Absolute-centers the iframe inside it regardless of the iframe's own
+   native box size, so the icon lands in the middle of the circle. */
 .st-key-ultron_bar div:has(> iframe) {
     display: flex;
     justify-content: center;
@@ -161,6 +168,7 @@ div[data-testid="stVerticalBlock"] div.st-key-ultron_bar {
     padding: 0 !important;
     margin: 0 !important;
     overflow: hidden;
+    position: relative;
 }
 
 /* Send button — same size/shape as the mic, sitting right beside it */
@@ -269,7 +277,7 @@ with bar:
     with col_mic:
         audio_data = audio_recorder(
             text="",
-            icon_size="2x",
+            icon_size="1.4x",
             recording_color="#00f0ff",
             neutral_color="#7fd8ff",
             key="mic_recorder",
